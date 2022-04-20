@@ -1,7 +1,9 @@
 mod b_rand;
 pub mod dynamic;
-pub mod lists;
+mod lists;
 pub mod sorting;
+mod tree;
 
 pub use lists::DbList;
 pub use lists::LinkedList;
+pub use tree::BinTree;

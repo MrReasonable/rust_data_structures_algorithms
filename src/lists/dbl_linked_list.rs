@@ -79,10 +79,11 @@ impl<T> DbList<T> {
                 Ok(refc) => {
                     let inner = refc.into_inner();
                     self.first = inner.next;
-                    self.first
-                        .as_ref()
-                        .map(|next| next.borrow_mut().prev = None);
-                    if let None = self.first {
+                    if let Some(next) = self.first.as_ref() {
+                        next.borrow_mut().prev = None
+                    }
+
+                    if self.first.is_none() {
                         self.last = None;
                     }
                     Some(inner.data)
