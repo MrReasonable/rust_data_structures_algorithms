@@ -90,9 +90,8 @@ impl<T: PartialOrd> SkipList<T> {
                 for i in (0..len).rev() {
                     if data > *self.0[i].borrow().data.borrow() {
                         let child = self.0[i].borrow_mut().insert(data);
-                        match child {
-                            Some(child) => self.loop_up(child, i + 1),
-                            None => (),
+                        if let Some(child) = child {
+                            self.loop_up(child, i + 1)
                         }
                         return;
                     }
@@ -141,16 +140,10 @@ impl<T: PartialOrd> SkipList<T> {
                     } else if *data > *val {
                         node = match sn.right {
                             Some(ref r) if *r.borrow().data.borrow() >= *val => Some(r.clone()),
-                            _ => match sn.down {
-                                None => None,
-                                Some(ref d) => Some(d.clone()),
-                            },
+                            _ => sn.down.as_ref().cloned(),
                         };
                     } else {
-                        node = match sn.right {
-                            None => None,
-                            Some(ref r) => Some(r.clone()),
-                        }
+                        node = sn.right.as_ref().cloned();
                     }
                 }
                 false
@@ -170,11 +163,11 @@ where
     T: Debug + PartialOrd,
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if self.0.len() == 0 {
+        if self.0.is_empty() {
             write!(f, "SkipList<Empty>")
         } else {
             for skip_node in &self.0 {
-                write!(f, "\n")?;
+                writeln!(f)?;
                 skip_node.borrow().print_row(f)?;
             }
             Ok(())

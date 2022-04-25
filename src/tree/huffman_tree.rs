@@ -94,15 +94,15 @@ impl HuffNode {
         Some(res)
     }
 
-    pub fn left(&self) -> Result<&Box<Self>, HuffManError> {
+    pub fn left(&self) -> Result<&Self, HuffManError> {
         self.traverse(HuffmanDir::Left)
     }
 
-    pub fn right(&self) -> Result<&Box<Self>, HuffManError> {
+    pub fn right(&self) -> Result<&Self, HuffManError> {
         self.traverse(HuffmanDir::Right)
     }
 
-    fn traverse(&self, dir: HuffmanDir) -> Result<&Box<Self>, HuffManError> {
+    fn traverse(&self, dir: HuffmanDir) -> Result<&Self, HuffManError> {
         match self {
             HuffNode::Leaf(_) => Err(HuffManError::OutOfBounds),
             HuffNode::Tree(l, r) => match dir {
@@ -115,7 +115,7 @@ impl HuffNode {
 
 impl Debug for HuffNode {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
-        Ok(self.print_lfirst(0, '<', f)?)
+        self.print_lfirst(0, '<', f)
     }
 }
 
@@ -184,7 +184,7 @@ impl HuffEncodedString {
                             false => acc.0.left(),
                             true => acc.0.right(),
                         };
-                        match next_node.unwrap().as_ref() {
+                        match next_node.unwrap() {
                             HuffNode::Leaf(c) => {
                                 let s = match acc.1 {
                                     None => None,
@@ -223,7 +223,7 @@ impl Display for HuffEncodedString {
         writeln!(
             f,
             "Decoded string: {}",
-            self.decode().unwrap_or("".to_owned())
+            self.decode().unwrap_or_else(|| "".to_owned())
         )
     }
 }
@@ -232,7 +232,7 @@ impl CompressedBoolVec {
     fn compress(v: Option<Vec<bool>>) -> Option<Self> {
         match v {
             None => None,
-            Some(v) if v.len() == 0 => None,
+            Some(v) if v.is_empty() => None,
             Some(v) => {
                 let total_bytes = (v.len() as f32 / 8f32).ceil() as usize;
                 let mut compressed_vec = Vec::with_capacity(total_bytes);
