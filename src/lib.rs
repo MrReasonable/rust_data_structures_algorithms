@@ -1,9 +1,18 @@
 mod b_rand;
 pub mod dynamic;
+mod graph;
 mod lists;
 pub mod sorting;
 mod tree;
 
+type Rcc<T> = Rc<RefCell<T>>;
+fn rcc<T>(t: T) -> Rcc<T> {
+    Rc::new(RefCell::new(t))
+}
+
+use std::{cell::RefCell, rc::Rc};
+
+pub use graph::Graph;
 pub use lists::DbList;
 pub use lists::LinkedList;
 pub use tree::BalancedTree;

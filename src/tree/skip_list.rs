@@ -1,11 +1,6 @@
 use rand::random;
 use std::fmt::{self, Debug};
-use std::{cell::RefCell, fmt::Write, mem::swap, rc::Rc};
-
-type Rcc<T> = Rc<RefCell<T>>;
-fn rcc<T>(t: T) -> Rcc<T> {
-    Rc::new(RefCell::new(t))
-}
+use std::{fmt::Write, mem::swap};
 
 #[derive(Debug)]
 struct SkipNode<T: PartialOrd> {
@@ -177,6 +172,7 @@ where
 
 #[cfg(test)]
 use crate::b_rand::rand;
+use crate::{rcc, Rcc};
 
 #[test]
 fn skip_list_print() {
