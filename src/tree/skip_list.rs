@@ -2,6 +2,8 @@ use rand::random;
 use std::fmt::{self, Debug};
 use std::{fmt::Write, mem::swap};
 
+use crate::{rcc, Rcc};
+
 #[derive(Debug)]
 struct SkipNode<T: PartialOrd> {
     right: Option<Rcc<SkipNode<T>>>,
@@ -171,41 +173,43 @@ where
 }
 
 #[cfg(test)]
-use crate::b_rand::rand;
-use crate::{rcc, Rcc};
+pub mod test {
+    use super::*;
+    use crate::b_rand::rand;
 
-#[test]
-fn skip_list_print() {
-    let mut skip_list = SkipList::new();
-    skip_list.insert(1);
-    skip_list.insert(8);
-    skip_list.insert(5);
-    skip_list.insert(3);
-    skip_list.insert(32);
-    skip_list.insert(7554);
-    skip_list.insert(2);
-    skip_list.insert(99);
-    skip_list.insert(101);
-    skip_list.insert(34);
-    println!("s = {}", skip_list);
-}
-
-#[test]
-fn exists_returns_false_on_empty_list() {
-    let t = SkipList::new();
-    assert!(!t.exists(&4));
-}
-
-#[test]
-fn exists_returns_true_when_value_is_in_list() {
-    let mut t = SkipList::new();
-    let mut values_to_find = Vec::new();
-    for _ in 0..10000 {
-        let v = rand(usize::MAX);
-        values_to_find.push(v);
-        t.insert(v);
+    #[test]
+    fn skip_list_print() {
+        let mut skip_list = SkipList::new();
+        skip_list.insert(1);
+        skip_list.insert(8);
+        skip_list.insert(5);
+        skip_list.insert(3);
+        skip_list.insert(32);
+        skip_list.insert(7554);
+        skip_list.insert(2);
+        skip_list.insert(99);
+        skip_list.insert(101);
+        skip_list.insert(34);
+        println!("s = {}", skip_list);
     }
-    for ref v in values_to_find {
-        assert!(t.exists(v));
+
+    #[test]
+    fn exists_returns_false_on_empty_list() {
+        let t = SkipList::new();
+        assert!(!t.exists(&4));
+    }
+
+    #[test]
+    fn exists_returns_true_when_value_is_in_list() {
+        let mut t = SkipList::new();
+        let mut values_to_find = Vec::new();
+        for _ in 0..10000 {
+            let v = rand(usize::MAX);
+            values_to_find.push(v);
+            t.insert(v);
+        }
+        for ref v in values_to_find {
+            assert!(t.exists(v));
+        }
     }
 }

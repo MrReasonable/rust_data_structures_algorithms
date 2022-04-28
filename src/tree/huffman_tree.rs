@@ -290,9 +290,12 @@ impl CompressedBoolVec {
 }
 
 #[cfg(test)]
-#[test]
-fn print_htree() {
-    let s = r#"Lorem Ipsum
+pub mod test {
+    use super::*;
+
+    #[test]
+    fn print_htree() {
+        let s = r#"Lorem Ipsum
 "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
 "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
 
@@ -395,7 +398,8 @@ Quisque molestie dapibus felis, sed pretium nisl vulputate non. Sed tincidunt ac
 Etiam scelerisque orci sit amet massa imperdiet fringilla. Vestibulum velit ipsum, luctus a eleifend at, suscipit vel elit. Aenean non rhoncus urna. Maecenas semper egestas est, a consequat metus cursus non. Ut tincidunt est ut mi fringilla, ac finibus leo sollicitudin. Nunc tempor nulla sit amet neque porttitor venenatis. Nunc congue leo vel arcu ornare rhoncus. Maecenas vehicula, est nec mollis tristique, sem quam vulputate leo, vitae pretium ipsum metus id dui. Sed vel sem mollis, semper lacus ac, vehicula metus. Aliquam accumsan, ante eu luctus elementum, sem arcu eleifend ante, ac interdum urna nulla eu mauris. Aliquam tempor pulvinar finibus. Sed tincidunt maximus tortor id vulputate. Phasellus consequat libero at metus efficitur sollicitudin. Praesent porta mattis ultrices.
 
 Morbi eget ullamcorper felis. Cras et purus at sem venenatis dictum. Nunc varius egestas aliquam. Sed lacinia dui nulla, ac tincidunt nibh aliquam ornare. Curabitur magna magna, molestie rutrum est id, convallis commodo nisl. Ut elementum auctor mi, sed porttitor elit luctus a. Aenean at lectus nisl. Sed aliquet pellentesque suscipit. Aliquam urna nibh, pellentesque vel elementum varius, dictum sed massa. Integer enim felis, faucibus ut risus quis, gravida venenatis massa. Sed quis mi hendrerit, facilisis felis in, venenatis justo. Sed tincidunt diam a fringilla euismod. Nullam sit amet nisi aliquam, facilisis lacus in, blandit ante. Maecenas vitae tempus lacus. "#;
-    println!("{}", s);
-    let t = HuffEncodedString::encode(s);
-    println!("{:?}", t);
+        println!("{}", s);
+        let t = HuffEncodedString::encode(s);
+        println!("{:?}", t);
+    }
 }
