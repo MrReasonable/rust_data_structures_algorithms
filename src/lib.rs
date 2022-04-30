@@ -1,6 +1,7 @@
 mod b_rand;
 pub mod dynamic;
 mod graph;
+mod hmap;
 mod lists;
 pub mod sorting;
 mod tree;
@@ -13,6 +14,7 @@ fn rcc<T>(t: T) -> Rcc<T> {
 use std::{cell::RefCell, rc::Rc};
 
 pub use graph::Graph;
+pub use hmap::HMap;
 pub use lists::DbList;
 pub use lists::LinkedList;
 pub use tree::BalancedTree;
