@@ -146,7 +146,7 @@ where
                     path: Some(c_route.clone()),
                 });
 
-                if routes.len() == 0 {
+                if routes.is_empty() {
                     routes.push(nroute);
                     continue;
                 }
@@ -159,7 +159,7 @@ where
                         break;
                     }
 
-                    if iafter <= 0 {
+                    if iafter == 0 {
                         routes.insert(iafter, nroute);
                         break;
                     }
@@ -170,10 +170,10 @@ where
     }
 
     pub fn greedy_salesman(&self, start: ID) -> Option<Rc<Route<ID>>> {
-        let mut to_visit: HashSet<ID> = self.data.keys().map(|k| k.clone()).collect();
+        let mut to_visit: HashSet<ID> = self.data.keys().cloned().collect();
         to_visit.remove(&start);
         let mut route = Route::start(start.clone());
-        while to_visit.len() > 0 {
+        while !to_visit.is_empty() {
             route = self.closest(route, &to_visit)?;
             to_visit.remove(&route.pos);
         }
@@ -200,7 +200,7 @@ where
     ID: Clone + Hash + Eq + fmt::Debug,
 {
     pub fn iter_salesman(&self, start: ID) -> Option<Rc<Route<ID>>> {
-        let mut bpath: Vec<ID> = self.data.keys().map(|k| k.clone()).collect();
+        let mut bpath: Vec<ID> = self.data.keys().cloned().collect();
         bpath.shuffle(&mut rand::thread_rng());
         for n in 0..bpath.len() {
             if bpath[n] == start {

@@ -4,8 +4,6 @@ use std::{borrow::Borrow, hash::Hash};
 mod bucket_list;
 mod hasher;
 
-pub mod hmap {}
-
 #[derive(Debug)]
 pub struct HMap<K, V> {
     n_moved: usize,
@@ -62,6 +60,10 @@ where
         self.main.len() + self.grow.len()
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.main.len() == 0 && self.grow.len() == 0
+    }
+
     fn move_bucket(&mut self) {
         if self.n_moved == 0 {
             self.grow.set_buckets(self.main.b_len() * 2)
@@ -76,6 +78,15 @@ where
             std::mem::swap(&mut self.main, &mut self.grow);
             self.n_moved = 0;
         }
+    }
+}
+
+impl<K, V> Default for HMap<K, V>
+where
+    K: Hash + Eq,
+{
+    fn default() -> Self {
+        Self::new()
     }
 }
 
