@@ -4,6 +4,8 @@ use std::{borrow::Borrow, hash::Hash};
 mod bucket_list;
 mod hasher;
 
+pub use hasher::hash;
+
 #[derive(Debug)]
 pub struct HMap<K, V> {
     n_moved: usize,
